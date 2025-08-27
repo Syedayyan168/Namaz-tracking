@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple Calendar</title>
+  <link rel="stylesheet" href="Dashboard.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <style>
+.center-page {
+  background: linear-gradient(135deg, #23243a 0%, #3a3d5c 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.calendar-container {
+  width: 100%;
+  max-width: 650px;
+  background: #333;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(31,38,135,0.15);
+  animation: fadeIn 0.8s ease-in;
+}
+
+/* Header */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(90deg, #2c3e50 60%, #2980b9 100%);
+  color: #fff;
+  font-size: 1.4rem;
+    flex-wrap: wrap; /* Added for responsiveness */
+  gap: 10px;
+}
+
+.calendar-header-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.calendar-header button {
+  background: #34495e;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: transform 0.2s, background 0.2s;
+    display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.calendar-header button:hover {
+  background: #2980b9;
+  transform: scale(1.04);
+}
+
+/* Weekdays & Days */
+.calendar-weekdays,
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-weekdays {
+  background: #333;
+  text-align: center;
+  padding: 12px 0;
+  font-weight: bold;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.calendar-days {
+  padding: 16px;
+  gap: 8px;
+}
+
+.calendar-days div {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  background: transparent;
+  transition: background 0.25s, transform 0.2s;
+  animation: dayFadeIn 0.5s forwards;
+  animation-delay: calc(0.015s * var(--i, 0));
+  opacity: 0;
+}
+
+.calendar-days div.today {
+  background: linear-gradient(90deg, #3498db 60%, #6dd5fa 100%);
+  color: #fff;
+  font-weight: bold;
+  transform: scale(1.08);
+}
+
+.calendar-days div:hover:not(.today):not(:empty) {
+  background: #d0e6fa;
+  color: #2980b9;
+  transform: scale(1.06);
+}
+
+/* Animations */
+@keyframes dayFadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Responsive Breakpoints ---------- */
+@media (max-width: 768px) {
+  .calendar-container {
+    max-width: 100%;
+    margin: 0 10px;
+  }
+
+  .calendar-header {
+    font-size: 1.2rem;
+    padding: 16px;
+    flex-direction: column;
+    align-items: stretch;
+    font-size: 1.2rem;
+    gap: 10px;
+  }
+
+    .calendar-header-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .calendar-header button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+  }
+
+  .calendar-weekdays {
+    font-size: 0.95rem;
+    padding: 10px 0;
+  }
+
+  .calendar-days {
+    gap: 6px;
+    padding: 12px;
+  }
+
+  .calendar-days div {
+    height: 60px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .calendar-header {
+    font-size: 1rem;
+  }
+
+  .calendar-days div {
+    height: 50px;
+    font-size: 0.95rem;
+  }
+
+  .calendar-weekdays {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .calendar-weekdays {
+    display: none;
+  }
+
+  .calendar-days {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding: 10px;
+  }
+
+  .calendar-days div {
+    height: 44px;
+    font-size: 0.85rem;
+  }
+
+  .calendar-header {
+    font-size: 0.95rem;
+    padding: 12px;
+  }
+
+  .calendar-header button {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+
+
+    </style>
+    
+ <!-- Sidebar / Drawer -->
+  <aside id="sidebar" class="sidebar">
+    <div class="content user-info" style="text-align: left; animation: fadeInDown 1s; max-width: 500px; margin-top: 100px;">
+      <h1 style="font-size:2.2em; color:#ffffff; margin-bottom: 1.2em; animation: popIn 0.8s;">Welcome</h1>
+      <div class="info-row" style="margin: 0 0 1.1em 0; font-size:1.1em; animation: slideInLeft 1s;">
+        <i class="fas fa-user" style="color:#05eff7; margin-right:8px;"></i>
+        First Name: <span id="loggedUserFName" style="font-weight:bold; color:#ffffff;"></span>
+      </div>
+      <div class="info-row" style="margin: 0 0 1.1em 0; font-size:1.1em; animation: slideInRight 1.2s;">
+        <i class="fas fa-user-tag" style="color:#05eff7; margin-right:8px;"></i>
+        Last Name: <span id="loggedUserLName" style="font-weight:bold; color:#ffffff;"></span>
+      </div>
+      <div class="info-row" style="margin: 0 0 1.1em 0; font-size:1.1em; animation: slideInLeft 1.4s;">
+        <i class="fas fa-envelope" style="color:#05eff7; margin-right:8px;"></i>
+        Email: <span id="loggedUserEmail" style="font-weight:bold; color:#ffffff;"></span>
+      </div>
+    </div>
+    <style>
+      @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-30px);}
+        to { opacity: 1; transform: translateY(0);}
+      }
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px);}
+        to { opacity: 1; transform: translateY(0);}
+      }
+      @keyframes slideInLeft {
+        from { opacity: 0; transform: translateX(-40px);}
+        to { opacity: 1; transform: translateX(0);}
+      }
+      @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(40px);}
+        to { opacity: 1; transform: translateX(0);}
+      }
+      @keyframes popIn {
+        0% { transform: scale(0.7); opacity: 0;}
+        80% { transform: scale(1.1);}
+        100% { transform: scale(1); opacity: 1;}
+      }
+      .user-info .info-row {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      #logoutBtn:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 4px 16px rgba(45,143,111,0.22);
+        background: linear-gradient(90deg,#4fd1c5,#2d8f6f);
+      }
+      .user-info {
+        text-align: center !important;
+      }
+      .user-info .info-row {
+        justify-content: center !important;
+      }
+    </style>
+    <nav>
+        <ul>
+  <li><a href="./Dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+  <li><a href="./namaz-history.html"><i class="fas fa-history"></i> Namaz History</a></li>
+  <li><a href="./weekly.html"><i class="fas fa-calendar-week"></i> Weekly Stats</a></li>
+     <li><a href="./daily-pray.html"><i class="fas fa-calendar-week"></i> Daily Stats</a></li>
+  <li><button id="logoutBtn" class="btn" style="margin-top: 20px;">Logout</button></li>
+</ul>
+
+
+<style>
+  /* Sidebar UL Styling */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+ul li a,
+ul li button {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-size: 16px;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+ul li a i,
+ul li button i {
+  margin-right: 10px;
+}
+
+/* Hover Effect */
+ul li a:hover,
+ul li button:hover {
+  background-color: #203a43;
+  color: #00ffd5;
+}
+
+/* Logout Button Specific Styling */
+ul li button#logoutBtn {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+ul li button#logoutBtn:hover {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+/* Responsive: collapse on small screens */
+@media (max-width: 768px) {
+  ul {
+    flex-direction: column;
+    width: 100%;
+    min-height: auto;
+    justify-content: stretch;
+  }
+
+  ul li {
+    width: 100%;
+  }
+
+  ul li a,
+  ul li button {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+}
+
+
+
+</style>
+    </nav>
+  </aside>
+
+  
+
+  <!-- Header -->
+  <header class="main-header">
+    <button id="menuToggle" class="menu-btn"><i class="fas fa-bars"></i></button>
+    <h2>Namaz Tracker System</h2>
+<div class="icons">
+    <a href="./namaz-time.html" title="Masjid Nearby">
+        <i class="fas fa-mosque" style="color: #fff;"></i>
+    </a>
+    <a href="./Calendar.html" title="Calendar">
+        <i class="fas fa-calendar-alt" style="color: #fff;"></i>
+    </a>
+    <a href="./profile.html" title="Profile">
+        <i class="fas fa-user-circle" style="color: #fff;"></i>
+    </a>
+</div>
+  </header>
+
+  
+
+
+<section class="center-page">
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <button id="prevMonth">&lt;</button>
+      <h2 id="monthYear"></h2>
+      <button id="nextMonth">&gt;</button>
+    </div>
+    <div class="calendar-weekdays">
+      <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+    </div>
+    <div class="calendar-days" id="calendarDays"></div>
+  </div>
+</section>
+  <script>
+const calendarDays = document.getElementById("calendarDays");
+const monthYear = document.getElementById("monthYear");
+const prevMonthBtn = document.getElementById("prevMonth");
+const nextMonthBtn = document.getElementById("nextMonth");
+
+let currentDate = new Date();
+
+function renderCalendar(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
+  const lastDate = new Date(year, month + 1, 0).getDate();
+
+  // Update title
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  monthYear.textContent = `${monthNames[month]} ${year}`;
+
+  // Reset previous days
+  calendarDays.innerHTML = "";
+
+  // Add placeholder empty cells to align first day
+  for (let i = 0; i < firstDay; i++) {
+    const emptyCell = document.createElement("div");
+    emptyCell.style.setProperty("--i", i);
+    calendarDays.appendChild(emptyCell);
+  }
+
+  const today = new Date();
+
+  // Add actual day cells
+  for (let day = 1; day <= lastDate; day++) {
+    const idx = firstDay + (day - 1);
+    const cell = document.createElement("div");
+    cell.textContent = day;
+    cell.style.setProperty("--i", idx);
+
+    // Highlight today's date
+    if (
+      day === today.getDate() &&
+      month === today.getMonth() &&
+      year === today.getFullYear()
+    ) {
+      cell.classList.add("today");
+    }
+
+    calendarDays.appendChild(cell);
+  }
+}
+
+// Initial calendar render
+renderCalendar(currentDate);
+
+// Navigate to previous month
+prevMonthBtn.addEventListener("click", () => {
+  currentDate.setMonth(currentDate.getMonth() - 1);
+  renderCalendar(currentDate);
+});
+
+// Navigate to next month
+nextMonthBtn.addEventListener("click", () => {
+  currentDate.setMonth(currentDate.getMonth() + 1);
+  renderCalendar(currentDate);
+});
+
+  </script>
+  <script src="layout.js"></script>
+ <script type="module" src="Dashboard.js"></script>
+<script type="module" src="firebaseauth.js"></script>
+<script type="module" src="authCheck.js"></script>  
+</body>
+</html>

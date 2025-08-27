@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Namaz Times</title>
+   <link rel="stylesheet" href="Dashboard.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <style>
+      body {
+  color: #fff;
+  animation: bgfade 2s;
+}
+@keyframes bgfade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.make-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  background-size: cover;
+  backdrop-filter: blur(5px);
+  margin-top: -70px;
+}
+
+/* Card styling */
+.namaz-card {
+  background: rgba(44, 47, 74, 0.97);
+    padding: 2rem 2rem; /* 🟢 Increased padding */
+  border-radius: 22px;
+  width: 100%;
+   max-width: 520px;     /* 🔼 Was 400px */
+  min-height: 380px; 
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.25);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255,255,255,0.07);
+  animation: cardpop 0.8s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+@keyframes cardpop {
+  0% { transform: scale(0.95) translateY(30px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.125rem;
+  gap: 0.625rem;
+  margin-top: 60px;
+}
+.header h2 {
+  margin: 0 0 0.125rem;
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  animation: fadein 1.2s;
+}
+.header p {
+  margin: 0;
+  font-size: 0.98rem;
+  color: #b3b3c9;
+  letter-spacing: 0.2px;
+  animation: fadein 1.5s;
+}
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Sunrise indicator */
+.sunrise {
+  text-align: right;
+  display: flex;
+  align-items: center;
+  gap: 0.3125rem;
+  font-size: 1rem;
+  color: #ffe066;
+  animation: sunrise-glow 2s infinite alternate;
+}
+.sunrise i {
+  color: #ffe066;
+  font-size: 1.1em;
+  filter: drop-shadow(0 0 2px #ffe066);
+}
+@keyframes sunrise-glow {
+  from { filter: brightness(1); }
+  to   { filter: brightness(1.2); }
+}
+
+/* Clock */
+.clock {
+  font-size: 1.15rem;
+  color: #00ffcc;
+  font-family: 'Consolas', monospace;
+  letter-spacing: 1px;
+  background: rgba(0,255,204,0.07);
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.4375rem;
+  animation: clockfade 1.5s;
+}
+@keyframes clockfade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Prayer times row */
+.prayer-times {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.125rem;
+  padding: 0.625rem 0;
+  border-top: 1px solid #444a6b;
+  border-bottom: 1px solid #444a6b;
+  gap: 0.25rem;
+  overflow-x: auto;
+}
+.prayer {
+  text-align: center;
+  min-width: 3.75rem;
+  transition: background 0.3s, transform 0.3s;
+  cursor: pointer;
+  border-radius: 0.625rem;
+  padding: 0.25rem 0;
+  animation: fadein 1.2s;
+}
+.prayer span {
+  display: block;
+  font-size: 0.93rem;
+  color: #b3b3c9;
+  margin-bottom: 0.125rem;
+  letter-spacing: 0.1px;
+}
+.prayer strong {
+  font-size: 1.13rem;
+  color: #fff;
+  letter-spacing: 0.5px;
+  transition: color 0.3s;
+}
+.prayer.active {
+  background: linear-gradient(90deg, #445577 60%, #3a3d5c 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(68,85,119,0.13);
+  transform: scale(1.07);
+  animation: pulse 1.2s infinite alternate;
+}
+@keyframes pulse {
+  from { box-shadow: 0 2px 8px rgba(68,85,119,0.13); }
+  to   { box-shadow: 0 4px 16px rgba(68,85,119,0.25); }
+}
+.prayer:hover:not(.active) {
+  background: rgba(255,255,255,0.04);
+  transform: scale(1.04);
+}
+
+/* Ending timers */
+.ending-timers {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 1.05rem;
+  color: #ffcc00;
+  letter-spacing: 0.2px;
+  animation: fadein 1.5s;
+}
+.ending-timers span {
+  font-weight: bold;
+  color: #23243a;
+  background: #ffcc00;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.4375rem;
+  margin-left: 0.25rem;
+  animation: blink 1.2s infinite alternate;
+}
+@keyframes blink {
+  from { background: #ffcc00; }
+  to   { background: #ffe066; }
+}
+
+/* Fluid typography on root */
+html { font-size: 16px; }
+@media (max-width: 768px) { html { font-size: 15px; } }
+@media (max-width: 480px) { html { font-size: 14px; } }
+
+/* ---------- Mobile responsiveness ---------- */
+@media (max-width: 600px) {
+  .namaz-card {
+    max-width: 95vw;
+    padding: 0.75rem 4vw 0.75rem;
+  }
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .prayer-times {
+    gap: 0.15rem;
+    padding: 0.5rem 0;
+  }
+  .prayer {
+    min-width: 3rem;
+    font-size: 0.98rem;
+    padding: 0.2rem 0;
+  }
+  .ending-timers { font-size: 0.98rem; }
+}
+
+@media (max-width: 400px) {
+  .namaz-card {
+    padding: 0.5rem 3vw;
+  }
+  .prayer {
+    min-width: 2.8rem;
+    font-size: 0.93rem;
+  }
+}
+
+    </style>
+   
+ <!-- Sidebar / Drawer -->
+  <aside id="sidebar" class="sidebar">
+    <div class="content user-info" style="text-align: left; animation: fadeInDown 1s; max-width: 500px; margin-top: 100px;">
+      <h1 style="font-size:2.2em; color:#ffffff; margin-bottom: 1.2em; animation: popIn 0.8s;">Welcome</h1>
+      <div class="info-row" style="margin: 0 0 1.1em 0; font-size:1.1em; animation: slideInLeft 1s;">
+        <i class="fas fa-user" style="color:#05eff7; margin-right:8px;"></i>
+        First Name: <span id="loggedUserFName" style="font-weight:bold; color:#ffffff;"></span>
+      </div>
+      <div class="info-row" style="margin: 0 0 1.1em 0; font-size:1.1em; animation: slideInRight 1.2s;">
+        <i class="fas fa-user-tag" style="color:#05eff7; margin-right:8px;"></i>
+        Last Name: <span id="loggedUserLName" style="font-weight:bold; color:#ffffff;"></span>
+      </div>
+      <div class="info-row" style="margin: 0 0 1.1em 0; font-size:1.1em; animation: slideInLeft 1.4s;">
+        <i class="fas fa-envelope" style="color:#05eff7; margin-right:8px;"></i>
+        Email: <span id="loggedUserEmail" style="font-weight:bold; color:#ffffff;"></span>
+      </div>
+    </div>
+    <style>
+      @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-30px);}
+        to { opacity: 1; transform: translateY(0);}
+      }
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px);}
+        to { opacity: 1; transform: translateY(0);}
+      }
+      @keyframes slideInLeft {
+        from { opacity: 0; transform: translateX(-40px);}
+        to { opacity: 1; transform: translateX(0);}
+      }
+      @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(40px);}
+        to { opacity: 1; transform: translateX(0);}
+      }
+      @keyframes popIn {
+        0% { transform: scale(0.7); opacity: 0;}
+        80% { transform: scale(1.1);}
+        100% { transform: scale(1); opacity: 1;}
+      }
+      .user-info .info-row {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      #logoutBtn:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 4px 16px rgba(45,143,111,0.22);
+        background: linear-gradient(90deg,#4fd1c5,#2d8f6f);
+      }
+      .user-info {
+        text-align: center !important;
+      }
+      .user-info .info-row {
+        justify-content: center !important;
+      }
+    </style>
+    <nav>
+   <ul>
+  <li><a href="./Dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+  <li><a href="./namaz-history.html"><i class="fas fa-history"></i> Namaz History</a></li>
+  <li><a href="./weekly.html"><i class="fas fa-calendar-week"></i> Weekly Stats</a></li>
+     <li><a href="./daily-pray.html"><i class="fas fa-calendar-week"></i> Daily Stats</a></li>
+  <li><button id="logoutBtn" class="btn" style="margin-top: 20px;">Logout</button></li>
+</ul>
+
+<style>
+  /* Sidebar UL Styling */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+ul li a,
+ul li button {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-size: 16px;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+ul li a i,
+ul li button i {
+  margin-right: 10px;
+}
+
+/* Hover Effect */
+ul li a:hover,
+ul li button:hover {
+  background-color: #203a43;
+  color: #00ffd5;
+}
+
+/* Logout Button Specific Styling */
+ul li button#logoutBtn {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+ul li button#logoutBtn:hover {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+/* Responsive: collapse on small screens */
+@media (max-width: 768px) {
+  ul {
+    flex-direction: column;
+    width: 100%;
+    min-height: auto;
+    justify-content: stretch;
+  }
+
+  ul li {
+    width: 100%;
+  }
+
+  ul li a,
+  ul li button {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+}
+
+
+
+
+</style>
+
+    </nav>
+  </aside>
+
+  
+
+  <!-- Header -->
+  <header class="main-header">
+    <button id="menuToggle" class="menu-btn"><i class="fas fa-bars"></i></button>
+    <h2>Namaz Tracker System</h2>
+<div class="icons">
+    <a href="./namaz-time.html" title="Masjid Nearby">
+        <i class="fas fa-mosque" style="color: #fff;"></i>
+    </a>
+    <a href="./Calendar.html" title="Calendar">
+        <i class="fas fa-calendar-alt" style="color: #fff;"></i>
+    </a>
+    <a href="./profile.html" title="Profile">
+        <i class="fas fa-user-circle" style="color: #fff;"></i>
+    </a>
+</div>
+  </header>
+
+
+    <section class="make-center">
+  <div class="namaz-card">
+    <div class="header">
+      <div>
+        <h2 id="gregorianDate">28 July 2025</h2>
+      <span id="islamicDate">Loading Islamic date...</span>
+
+      </div>
+      <div class="right">
+        <div class="sunrise">
+          <i class="fas fa-sun"></i>
+          <span>Sunrise</span>
+          <strong id="sunriseTime">05:55</strong>
+        </div>
+        <div class="clock" id="liveClock">--:--:--</div>
+      </div>
+    </div>
+
+    <div class="prayer-times">
+      <div class="prayer" id="fajr">
+        <span>Fajr</span>
+        <strong>04:30</strong>
+      </div>
+      <div class="prayer" id="zohar">
+        <span>Zohar</span>
+        <strong>12:38</strong>
+      </div>
+      <div class="prayer active" id="asr">
+        <span>Asr</span>
+        <strong>05:20</strong>
+      </div>
+      <div class="prayer" id="maghrib">
+        <span>Maghrib</span>
+        <strong>07:21</strong>
+      </div>
+      <div class="prayer" id="isha">
+        <span>Isha</span>
+        <strong>08:46</strong>
+      </div>
+    </div>
+  </div>
+  </section>
+  <script>
+  // 🕓 Update every second
+  setInterval(() => {
+    const now = new Date();
+    const gregorianDateEl = document.getElementById("gregorianDate");
+    const liveClockEl = document.getElementById("liveClock");
+
+    if (gregorianDateEl) gregorianDateEl.textContent = now.toDateString();
+    if (liveClockEl) liveClockEl.textContent = now.toLocaleTimeString();
+
+    updatePrayerStatus(now);
+  }, 1000);
+
+  // 📅 Get Islamic (Hijri) Date (FIXED: show today's date not tomorrow)
+  async function fetchHijriDate() {
+    const today = new Date();
+    today.setDate(today.getDate() - 1); // ✅ Fix: go back 1 day due to API issue
+
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    const formattedDate = `${dd}-${mm}-${yyyy}`;
+    const url = `https://api.aladhan.com/v1/gToH?date=${formattedDate}&timezone=Asia/Karachi`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      const islamicDateEl = document.getElementById("islamicDate");
+
+      if (!islamicDateEl) return console.warn("⛔ islamicDate element not found in HTML.");
+
+      if (data.code === 200 && data.data?.hijri) {
+        const hijri = data.data.hijri;
+        islamicDateEl.textContent = `${hijri.day} ${hijri.month.en} ${hijri.year}`;
+      } else {
+        console.error("Hijri API error:", data);
+        islamicDateEl.textContent = "Hijri date unavailable";
+      }
+    } catch (err) {
+      console.error("Failed to load Hijri date:", err);
+      const islamicDateEl = document.getElementById("islamicDate");
+      if (islamicDateEl) islamicDateEl.textContent = "Hijri date unavailable";
+    }
+  }
+  fetchHijriDate();
+
+  // 🕌 Static Namaz Times
+  const namazTimes = {
+    fajr: "04:30",
+    sunrise: "05:55",
+    zohar: "12:38",
+    asr: "17:20",
+    maghrib: "19:21",
+    isha: "20:46",
+  };
+
+  const endingTimes = {
+    fajr: "05:55",
+    zohar: "17:20",
+    asr: "19:21",
+    maghrib: "20:46",
+    isha: "04:30",
+  };
+
+  function updatePrayerStatus(now) {
+    const currentMin = now.getHours() * 60 + now.getMinutes();
+    const keys = Object.keys(namazTimes);
+    const times = keys.map(k => ({
+      name: k,
+      min: parseInt(namazTimes[k].split(":"))[0] * 60 + parseInt(namazTimes[k].split(":"))[1],
+    }));
+
+    let currentPrayer = null;
+    let nextPrayer = null;
+
+    for (let i = 0; i < times.length; i++) {
+      if (currentMin >= times[i].min) {
+        currentPrayer = times[i];
+        nextPrayer = times[(i + 1) % times.length];
+      }
+    }
+
+    if (!currentPrayer) {
+      currentPrayer = times[times.length - 1];
+      nextPrayer = times[0];
+    }
+
+    if (currentPrayer.name === "sunrise") {
+      document.getElementById("endingTimer").innerHTML = `${capitalize(nextPrayer.name)} starts in: <span>--:--</span>`;
+      return;
+    }
+
+    document.querySelectorAll(".prayer").forEach(div => div.classList.remove("active"));
+    const active = document.getElementById(currentPrayer.name);
+    if (active) active.classList.add("active");
+
+    const endTimeStr = endingTimes?.[currentPrayer?.name];
+    let endH = "--", endM = "--", minsLeft = 0, showEndTimer = false;
+
+    if (endTimeStr && endTimeStr.includes(":")) {
+      const [eh, em] = endTimeStr.split(":").map(Number);
+      let endMin = eh * 60 + em;
+      if (endMin < currentMin) endMin += 1440;
+      minsLeft = endMin - currentMin;
+      endH = String(Math.floor(minsLeft / 60)).padStart(2, "0");
+      endM = String(minsLeft % 60).padStart(2, "0");
+      showEndTimer = true;
+    } else {
+      console.warn("⚠️ Ending time not found for prayer:", currentPrayer.name);
+    }
+
+    const nextMin = nextPrayer.min > currentMin ? nextPrayer.min : nextPrayer.min + 1440;
+    const minsTillNext = nextMin - currentMin;
+    const nextH = String(Math.floor(minsTillNext / 60)).padStart(2, "0");
+    const nextM = String(minsTillNext % 60).padStart(2, "0");
+
+    const endingTimerEl = document.getElementById("endingTimer");
+    if (!endingTimerEl) return;
+
+    if (showEndTimer && currentMin < endingTimesInMin(currentPrayer.name)) {
+      endingTimerEl.innerHTML = `${capitalize(currentPrayer.name)} ends in: <span>${endH}:${endM}</span>`;
+    } else {
+      endingTimerEl.innerHTML = `${capitalize(nextPrayer.name)} starts in: <span>${nextH}:${nextM}</span>`;
+    }
+  }
+
+  function endingTimesInMin(prayer) {
+    const time = endingTimes[prayer];
+    if (!time) return 0;
+    const [eh, em] = time.split(":").map(Number);
+    return eh * 60 + em;
+  }
+
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  function fetchSunriseTime(lat, lng) {
+    const url = `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&formatted=0`;
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const utcTime = new Date(data.results.sunrise);
+        const localTime = new Date(utcTime.toLocaleString("en-US", { timeZone: "Asia/Karachi" }));
+        const h = String(localTime.getHours()).padStart(2, '0');
+        const m = String(localTime.getMinutes()).padStart(2, '0');
+        const finalSunrise = `${h}:${m}`;
+
+        const sunriseTimeEl = document.getElementById("sunriseTime");
+        if (sunriseTimeEl) sunriseTimeEl.textContent = finalSunrise;
+
+        namazTimes.sunrise = finalSunrise;
+        endingTimes.fajr = finalSunrise;
+      })
+      .catch(err => console.error("Sunrise API error:", err));
+  }
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => fetchSunriseTime(pos.coords.latitude, pos.coords.longitude),
+      err => console.warn("Location access denied. Using default sunrise.")
+    );
+  } else {
+    console.warn("Geolocation not supported.");
+  }
+</script>
+
+  <script src="layout.js"></script>
+ <script type="module" src="Dashboard.js"></script>
+<script type="module" src="firebaseauth.js"></script>
+<script type="module" src="authCheck.js"></script>  
+</body>
+</html>

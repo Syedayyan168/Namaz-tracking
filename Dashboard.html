@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Namaz Dashboard</title>
+  <link rel="stylesheet" href="Dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+
+  <!-- Sidebar / Drawer -->
+  <aside id="sidebar" class="sidebar">
+    <div class="content user-info" style="text-align: left; animation: fadeInDown 1s; max-width: 500px; margin-top: 100px;">
+      <h1 style="font-size:2.2em; color:#ffffff; margin-bottom: 1.2em; animation: popIn 0.8s;">Welcome</h1>
+      <div class="info-row" style="margin: 0 0 1.1em 0; font-size:1.1em; animation: slideInLeft 1s;">
+        <i class="fas fa-user" style="color:#05eff7; margin-right:8px;"></i>
+        First Name: <span id="loggedUserFName" style="font-weight:bold; color:#ffffff;"></span>
+      </div>
+      <div class="info-row" style="margin: 0 0 1.1em 0; font-size:1.1em; animation: slideInRight 1.2s;">
+        <i class="fas fa-user-tag" style="color:#05eff7; margin-right:8px;"></i>
+        Last Name: <span id="loggedUserLName" style="font-weight:bold; color:#ffffff;"></span>
+      </div>
+      <div class="info-row" style="margin: 0 0 1.1em 0; font-size:1.1em; animation: slideInLeft 1.4s;">
+        <i class="fas fa-envelope" style="color:#05eff7; margin-right:8px;"></i>
+        Email: <span id="loggedUserEmail" style="font-weight:bold; color:#ffffff;"></span>
+      </div>
+    </div>
+    <style>
+      @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-30px);}
+        to { opacity: 1; transform: translateY(0);}
+      }
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px);}
+        to { opacity: 1; transform: translateY(0);}
+      }
+      @keyframes slideInLeft {
+        from { opacity: 0; transform: translateX(-40px);}
+        to { opacity: 1; transform: translateX(0);}
+      }
+      @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(40px);}
+        to { opacity: 1; transform: translateX(0);}
+      }
+      @keyframes popIn {
+        0% { transform: scale(0.7); opacity: 0;}
+        80% { transform: scale(1.1);}
+        100% { transform: scale(1); opacity: 1;}
+      }
+      .user-info .info-row {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      #logoutBtn:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 4px 16px rgba(45,143,111,0.22);
+        background: linear-gradient(90deg,#4fd1c5,#2d8f6f);
+      }
+      .user-info {
+        text-align: center !important;
+      }
+      .user-info .info-row {
+        justify-content: center !important;
+      }
+    </style>
+    <nav>
+     <ul>
+  <li><a href="./Dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+  <li><a href="./namaz-history.html"><i class="fas fa-history"></i> Namaz History</a></li>
+  <li><a href="./weekly.html"><i class="fas fa-calendar-week"></i> Weekly Stats</a></li>
+     <li><a href="./daily-pray.html"><i class="fas fa-calendar-week"></i> Daily Stats</a></li>
+  <li><button id="logoutBtn" class="btn" style="margin-top: 20px;">Logout</button></li>
+
+</ul>
+
+<style>
+  /* Sidebar UL Styling */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+ul li a,
+ul li button {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-size: 16px;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+ul li a i,
+ul li button i {
+  margin-right: 10px;
+}
+
+/* Hover Effect */
+ul li a:hover,
+ul li button:hover {
+  background-color: #203a43;
+  color: #00ffd5;
+}
+
+/* Logout Button Specific Styling */
+ul li button#logoutBtn {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+ul li button#logoutBtn:hover {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+/* Responsive: collapse on small screens */
+@media (max-width: 768px) {
+  ul {
+    flex-direction: column;
+    width: 100%;
+    min-height: auto;
+    justify-content: stretch;
+  }
+
+  ul li {
+    width: 100%;
+  }
+
+  ul li a,
+  ul li button {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+}
+
+
+
+</style>
+
+    </nav>
+  </aside>
+
+  <!-- Header -->
+  <header class="main-header">
+    <button id="menuToggle" class="menu-btn"><i class="fas fa-bars"></i></button>
+    <h2>Namaz Tracker System</h2>
+    <div class="icons">
+      <a href="./namaz-time.html" title="Masjid Nearby">
+        <i class="fas fa-mosque" style="color: #fff;"></i>
+      </a>
+      <a href="./Calendar.html" title="Calendar">
+        <i class="fas fa-calendar-alt" style="color: #fff;"></i>
+      </a>
+      <a href="./profile.html" title="Profile">
+        <i class="fas fa-user-circle" style="color: #fff;"></i>
+      </a>
+    </div>
+  </header>
+
+<section id="dashboard" class="content-section">
+  <h2 class="TOP">Assalamu-alaikum</h2>
+  <div id="date-time">
+    <p id="date"></p>
+    <div id="time"></div>
+  </div>
+
+  <table>
+    <tr>
+      <th>Fajr</th>
+      <td><label><input type="radio" name="fajr" value="offered"> Offered</label></td>
+      <td><label><input type="radio" name="fajr" value="qaza"> Qaza</label></td>
+    </tr>
+    <tr>
+      <!-- Change name="Zohor" to name="zohor" in both inputs -->
+  <th>Zohor</th>
+  <td><label><input type="radio" name="zohor" value="offered"> Offered</label></td>
+  <td><label><input type="radio" name="zohor" value="qaza"> Qaza</label></td>
+    </tr>
+    <tr>
+      <th>Asr</th>
+      <td><label><input type="radio" name="asr" value="offered"> Offered</label></td>
+      <td><label><input type="radio" name="asr" value="qaza"> Qaza</label></td>
+    </tr>
+    <tr>
+      <th>Maghrib</th>
+      <td><label><input type="radio" name="maghrib" value="offered"> Offered</label></td>
+      <td><label><input type="radio" name="maghrib" value="qaza"> Qaza</label></td>
+    </tr>
+    <tr>
+      <th>Isha</th>
+      <td><label><input type="radio" name="isha" value="offered"> Offered</label></td>
+      <td><label><input type="radio" name="isha" value="qaza"> Qaza</label></td>
+    </tr>
+  </table>
+
+<button id="saveBtn" type="button"  class="styling">Save Namaz</button>
+</section>
+
+<!-- JS file links -->
+<script src="layout.js"></script>
+<script type="module" src="Dashboard.js"></script>
+<!-- Firebase scripts -->
+  <script type="module" src="firebase.js"></script>
+<script type="module" src="firebaseauth.js"></script>
+<script type="module" src="authCheck.js"></script> 
+</body>
+</html>

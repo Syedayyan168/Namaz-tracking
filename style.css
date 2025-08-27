@@ -1,0 +1,158 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #23243a 0%, #3a3d5c 100%);
+  color: #f0f0f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.container {
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 450px;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  transition: transform 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-4px);
+}
+
+.form-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.2rem;
+  color: #e2e2ff;
+}
+
+.input-group {
+  position: relative;
+  margin: 1.2rem 0;
+}
+
+input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: #eef;
+}
+
+input::placeholder {
+  color: transparent;
+}
+
+input:focus {
+  border-bottom: 2px solid #a0c4ff;
+  outline: none;
+}
+
+label {
+  position: absolute;
+  left: 1rem;
+  top: 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+  transition: 0.3s ease all;
+}
+
+input:focus ~ label,
+input:not(:placeholder-shown) ~ label {
+  top: -0.75rem;
+  font-size: 0.85rem;
+  color: #a0c4ff;
+}
+
+button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  background-color: #5a6aff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #3f4fc4;
+}
+
+.recover a,
+.links button {
+  color: #a0c4ff;
+}
+
+.recover a:hover,
+.links button:hover {
+  color: #eef;
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.messageDiv {
+  background-color: #a0c4ff;
+  color: #23243a;
+  padding: 0.8rem 1rem;
+  margin: 1rem 0;
+  border-radius: 5px;
+  font-size: 1rem;
+  animation: fadeOut 6s forwards;
+}
+
+@keyframes fadeOut {
+  0%, 80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ---------- Media Queries for Responsiveness ---------- */
+
+/* Small phones: up to 480px */
+@media only screen and (max-width: 480px) {
+  .container {
+    padding: 1rem;
+    max-width: 100%;
+  }
+  .form-title {
+    font-size: 1.4rem;
+  }
+  button {
+    font-size: 1rem;
+    padding: 0.6rem;
+  }
+}
+
+/* Medium phones/tablets: up to 768px */
+@media only screen and (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  .container {
+    max-width: 90%;
+  }
+  .form-title {
+    font-size: 1.5rem;
+  }
+}
